@@ -6,6 +6,21 @@ import app
 
 
 class AppTest(TestCase):
+
+    def setUp(self):
+        blog = Blog("Test", "Test Author")
+        app.blogs = {"Test":blog}
+
+    def test_menu_calls_create_blog(self):
+        with patch("builtins.input") as mocked_input:
+            with patch("app.ask_create_blog") as mocked_ask_create_blog:
+                mocked_input.side_effect = ("c", "Test Create Blog", "Test Author", "q")
+                app.menu()
+                # self.assertIsNotNone(app.blogs["Test Create Blog"])
+                mocked_ask_create_blog.assert_called()
+
+    def test_menu_calls_list_blogs(self):
+        pass
     
     def test_menu_calls_print_blogs(self):
         with patch("app.print_blogs") as mocked_print_blogs:
@@ -14,11 +29,9 @@ class AppTest(TestCase):
                 mocked_print_blogs.assert_called()
 
     def test_print_blogs(self):
-        blog = Blog("Test", "Test Author")
-        app.blogs = {"Test" : blog}
         with patch("builtins.print") as mocked_print:
             app.print_blogs()
-            mocked_print.assert_called_with("- Test by the Author (0 posts)")
+            mocked_print.assert_called_with("- Test by Test Author (0 posts)")
     
     def test_print_blogs(self):
         blog = Blog("Test", "Test Author")
@@ -35,8 +48,7 @@ class AppTest(TestCase):
             self.assertIsNotNone(app.blogs.get("Test"))
 
     def test_ask_read_blog(self):
-        blog = Blog("Test", "Test Author")
-        app.blogs = {"Test": blog}
+        blog = app.blogs["Test"]
         with patch("builtins.input", return_value="Test"):
             with patch("app.print_posts") as mocked_print_posts:
                 app.ask_read_blog()
@@ -62,3 +74,11 @@ Post content
         with patch("builtins.print") as mocked_print:
             app.print_post(post)
             mocked_print.assert_called_with(expected_print)
+
+    def test_ask_create_post(self):
+        blog = app.blogs["Test"]
+        with patch("builtins.input") as mocked_input:
+            mocked_input.side_effect = ("Test", "Test Title", "Test Content")
+            app.ask_create_post()
+            self.assertEqual(blog.posts[0].title, "Test Title")
+            self.assertEqual(blog.posts[0].content, "Test Content")
