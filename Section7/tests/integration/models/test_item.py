@@ -4,7 +4,6 @@ from tests.base_test import BaseTest
 
 
 class ItemTest(BaseTest):
-  
     def test_crud(self):
         with self.app_context():
             store = StoreModel('test')
