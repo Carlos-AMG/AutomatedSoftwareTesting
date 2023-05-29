@@ -28,14 +28,13 @@ api.add_resource(StoreList, '/stores')
 
 api.add_resource(UserRegister, '/register')
 
-
 @app.errorhandler(JWTError)
 def auth_error(err):
     return jsonify({'message': 'Could not authorize. Did you include a valid Authorization header?'}), 401
 
 if __name__ == '__main__':
     from db import db
-
+    
     db.init_app(app)
 
     if app.config['DEBUG']:
@@ -43,4 +42,4 @@ if __name__ == '__main__':
         def create_tables():
             db.create_all()
 
-    app.run(port=5000)
+    app.run(host="0.0.0.0", port=5000)
