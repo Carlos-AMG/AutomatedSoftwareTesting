@@ -1,4 +1,4 @@
-https://app.travis-ci.com/Carlos-AMG/AutomatedSoftwareTesting.svg?branch=master
+[![Build Status](https://app.travis-ci.com/Carlos-AMG/AutomatedSoftwareTesting.svg?branch=master)](https://app.travis-ci.com/Carlos-AMG/AutomatedSoftwareTesting)
 # Course Repository: Automated Software Testing
 
 Welcome to the repository for the **Automated Software Testing** course on Udemy.
